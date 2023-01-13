@@ -2,7 +2,15 @@
 @import "~slick-carousel/slick/slick-theme.css";
 
 .video-reels {
+  position: fixed;
+  position: absolute;
   overflow: hidden;
   width: 100vw;
-  height: -webkit-fill-available; 
+  height: 100vh;
 }
+//css div that uses whole viewport on mobile devices?
+
+
+
+
+

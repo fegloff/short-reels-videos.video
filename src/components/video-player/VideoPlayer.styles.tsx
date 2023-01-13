@@ -8,13 +8,25 @@ export const VideoPlayerContainer = styled.div<{ opacity: number }>`
   height: 100vh;
   //https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser
   height: -webkit-fill-available;
-
-  /* video {
+  background-color: black;
+  
+  .videoPlayer-preparation {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    font-size: 4rem;
+  }
+  
+  video {
     width: 100%;
     height: 100vh;
     max-height: 100%;
     object-fit: cover;
-  } */
+  }
   
   mux-video {
     --controls: none;
@@ -31,9 +43,10 @@ export const VideoPlayerContainer = styled.div<{ opacity: number }>`
     max-height: 100%;
     object-fit: cover;
   }
-  video::-webkit-media-controls-start-playback-button {
+  
+  /* video::-webkit-media-controls-start-playback-button {
     display: none !important;
-  }
+  } */
 
   .videoPlayer-content {
     object-fit: cover;

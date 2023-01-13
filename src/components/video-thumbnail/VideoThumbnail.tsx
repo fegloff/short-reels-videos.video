@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { VideoInfo } from "../../util/api/video-api";
+import { VideoInfo } from '../../util/api/types';
 
 import "./VideoThumbnail.styles.scss";
 

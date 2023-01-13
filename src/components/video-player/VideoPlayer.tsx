@@ -1,15 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
-import { muxClient, VideoInfo } from "../../util/api/video-api";
+import { client } from '../../util/api/client'
+import { VideoInfo } from '../../util/api/types';
+
 import MuxPlayer from "@mux/mux-player-react";
+import MuxVideo from "@mux/mux-video-react";
 
 import { BsVolumeMuteFill, BsVolumeDownFill } from "react-icons/bs";
 
 import { VideoPlayerContainer } from "./VideoPlayer.styles";
 
 type VideoPlayerProps = {
-  videoId: string; //VideoInfo;
+  videoId: string;
 };
 
 const isVideoReady = (video: VideoInfo) => {
@@ -20,7 +23,6 @@ const getPlaybackId = (video: VideoInfo) => {
   if (!video.muxAsset.playback_ids) {
     return "";
   }
-
   return video.muxAsset.playback_ids[0].id;
 };
 
@@ -46,10 +48,10 @@ const VideoPlayer = ({ videoId }: VideoPlayerProps) => {
 
   useEffect(() => {
     const getVideoInfo = async () => {
-      const responseData = await muxClient.loadVideoInfo(videoId);
+      const responseData = await client.loadVideoInfo(videoId);
       setVideo(() => responseData);
       setIsVideoExistAndReady(isVideoReady(responseData));
-      setMuted(false);
+      setMuted(true);
     };
 
     if (inView && !video) {
@@ -70,26 +72,22 @@ const VideoPlayer = ({ videoId }: VideoPlayerProps) => {
 
   useEffect(() => {
     if (!inView) {
-      setMuted(true);
       setOpaque(0.5);
-      // setVideo(undefined);
-    } else {
-      setMuted(false);
-    }
+    } 
+    setMuted(true);
   }, [inView]);
 
   return (
     <VideoPlayerContainer opacity={opaque} ref={ref}>
-      {!isVideoExistAndReady && <div>video preparing...</div>}
+      {!isVideoExistAndReady && <div className='videoPlayer-preparation'>...</div>}
       {inView && video && isVideoExistAndReady && (
         <MuxPlayer
-          // preferPlayback="mse"
           ref={videoRef}
           streamType="on-demand"
           muted={muted}
-          autoPlay
+          autoPlay="muted"
           loop
-          // loading="viewport"
+          // playsInline
           playbackId={getPlaybackId(video)}
           metadata={{
             video_id: "video-id-54321",

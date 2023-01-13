@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import VideoThumbnail from "../../components/video-thumbnail/VideoThumbnail";
-import {
-  muxClient,
-  VideoInfo,
-} from "../../util/api/video-api";
+import { client } from '../../util/api/client'
+import { VideoInfo } from '../../util/api/types';
 
 import "./VideoHome.styles.scss";
 
@@ -11,7 +9,7 @@ const VideoHome = () => {
   const [videoList, setVideoList] = useState<VideoInfo[]>([]);
 
   const loadVideoList = useCallback(async () => {
-    const list = await muxClient.loadVideoList();
+    const list = await client.loadVideoList();
     console.log('list', list);
     setVideoList(() => list);
   }, []);

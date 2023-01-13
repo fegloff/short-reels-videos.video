@@ -12,7 +12,7 @@ const VideoUpload = () => {
   const [opaque, setOpaque] = useState(0.5);
   const navigate = useNavigate();
   const handlers = useSwipeable({
-    onSwipedDown: (eventData) => navigate("/"),
+    onSwipedDown: (eventData) => navigate("/home/"),
     trackMouse: true,
     preventScrollOnSwipe: true,
   });

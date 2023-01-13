@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import VideoPlayer from '../../components/video-player/VideoPlayer';
 import Slider from "react-slick";
 import { useParams, useNavigate } from 'react-router-dom'
-import { getOwnerVideos, muxClient, VideoInfo, VideoType } from '../../util/api/video-api'
+import { client } from '../../util/api/client'
+import { VideoInfo } from '../../util/api/types';
 import { useSwipeable } from 'react-swipeable'
 
 import './VideoReels.styles.scss';
@@ -12,7 +13,7 @@ const VideoReels = () => {
   const { vanityUrl } = useParams();
   const navigate = useNavigate();
   const handlers = useSwipeable({
-    onSwipedUp: (eventData) => navigate('/upload/'),
+    onSwipedUp: (eventData) => navigate('/home/upload/'),
     onSwipedDown: (eventData) => navigate('/home/'), 
     trackMouse: true,
     preventScrollOnSwipe: true,
@@ -38,15 +39,14 @@ const VideoReels = () => {
   
   useEffect(() => {
     const getVideos = async () => {
-      let videoList = await muxClient.loadVideoList();
-      const index = videoList.findIndex((v:VideoInfo) => v.id === vanityUrl);
-      videoList.unshift(videoList.splice(index, 1)[0])
-      console.log(videoList, vanityUrl);
+      let videoList = await client.loadVideoList();
+      if (vanityUrl) {
+        const index = videoList.findIndex((v:VideoInfo) => v.id === vanityUrl);
+        videoList.unshift(videoList.splice(index, 1)[0])
+      }
       setVideos(videoList)
     }
-    
     getVideos();
-  
   }, [])
 
   return (
@@ -61,3 +61,5 @@ const VideoReels = () => {
 }
 
 export default VideoReels;
+
+
